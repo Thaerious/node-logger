@@ -7,7 +7,10 @@ export class Channel {
     constructor() {
         this._enabled = true;
         this._prefix = () => { return ""; };
-        this.handlers = [(string)=>console.log(string)];
+        this.handlers = [(string) => {
+            console.log(string);
+            return string;
+        }];
     }
 
     get enabled() {
