@@ -1,8 +1,8 @@
 {
     "name": "@thaerious/logger",
-    "version": "0.3.1",
+    "version": "0.4.0",
     "description": "",
-    "main": "src/Logger.js",
+    "main": "src/lib.js",
     "type": "module",
     "scripts": {},
     "author": "Ed Armstrong",
@@ -10,9 +10,5 @@
     "repository": {
         "type": "git",
         "url": "git+ssh://git@github.com/Thaerious/node-logger.git"
-    },
-    "homepage": "https://github.com/Thaerious/node-parser#readme",
-    "browserify": {
-        "transform": [["babelify",{"presets": ["@babel/preset-env"]}]]
     }
 }

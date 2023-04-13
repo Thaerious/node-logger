@@ -1,9 +1,10 @@
-import Logger from "@thaerious/logger";
+import Logger from "../src/Logger.js";
 
-Logger.instance.channel("verbose");
-const logger = Logger.instance.all();
+const logger = new Logger();
 
 logger.log("hello world");
 logger.verbose("hello there world I am logger");
+
+// console.log(logger.channels);
 
 

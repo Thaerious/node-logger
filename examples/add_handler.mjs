@@ -1,12 +1,15 @@
-import Logger from "@thaerious/logger";
+import Logger from "../src/Logger.js";
 
-Logger.instance.channel("log").addHandler((value, raw) => {
-    console.log("prefix"
-});
-const logger = Logger.instance.all();
+// add an anonymous function and console as handlers
+
+const logger = new Logger();
+
+logger.log.handlers = [
+    (v) => `[log] ${v}`,
+    console
+]
 
 logger.log("hello world");
-logger.verbose("hello there world I am logger");
 
 
 

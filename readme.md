@@ -1,39 +1,47 @@
 # Node Logger
-
-A compact NodeJS module to manage app logging.
-Designed to be easy to use with minimal external dependencies.
+A compact NodeJS module to manage application logging.
+Designed to be easy to use with minimal (currently none) external dependencies.
 
 ## Installation
-
 To install using npm:
 
+```bash
     npm i @thaerious/logger
+```
 
 ## Quick Start
-
-    import Logger from "@thaerious/logger";
-    const logger = Logger.instance.all();
-    logger.log("hello world");
-    
 The default behaviour provides a single channel called 'log' which outputs to the console.
+Inovking the channel as a function will process the passed in values.
+
+```js
+    import Logger from "@thaerious/logger";
+    const logger = new Logger();
+    logger.log("hello world");
+```  
 
 ## Adding Channels
+Using a previously undefined channedl will create a new channel that outputs to the console.
 
-Use the #channel method to add more channels to the logger.  By default new channels output to the console.
-
-    Logger.instance.channel("verbose");
+```js
+    logger.verbose("ima debug statement!");
+```
 
 ## Disabling a Channel
-
-Setting the **enabled** field on a channel to **false** will prevent all output from that channel.
+Setting the **enabled** field on a channel to **false** will prevent all processing on that channel.
 To enable the channel set the **enabled** field to **true**.
 
-    Logger.instance.channel("verbose").enabled = false;
-
+``` js
+    logger.log.enabled = false;
+```
+    
 ## Add Custom Handlers
-
 When a channel receives input it is sent through a chain of handlers.  The default is a single handler that outputs the input to the console verbatim.
-A handler is a callback function which accepts 2 arguments: value, raw.  The **value** argument is the value returned by the last handlers.  The **raw** is the original object passed into the logger.  Note, the first handler receives the same value for both **value** and **raw**.  Handlers are added to the end of the handler chain, to add to the beginnin use the **#pushHandler** method.
+
+A handler can either be a callback function or an object with a **log** function, such as console or another channel.
+
+The callback function accepts 2 arguments: value, raw.  The **value** argument is the value returned by the previous handler.  The **raw** is the original object value into the channel.  Note, the first handler receives the same value for both **value** and **raw**.  The channel will return the result of the last handler.
+
+Use the **handlers** setter to set handlers, this will erase all previous handlers.  Alternatively use **#clearHandlers**, **prependHandler**, or **appendHandler**.
 
     Logger.instance.channel("verbose").addHandler((value, raw)=>{
         return 'prefix> ' + value;

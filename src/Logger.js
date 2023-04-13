@@ -1,5 +1,4 @@
 import Channel from "./Channel.js";
-import getPos from "./getPos.js";
 
 /**
  * Use logger.getChannel('name').log('message') instead of console.log('message')
@@ -11,6 +10,13 @@ class Logger {
         this.channels = {
             "log": new Channel()
         }
+
+        return new Proxy(this, {
+            get(target, prop, receiver) {
+                const channel = target.channel(prop);
+                return new Proxy(() => { }, new ChannelProxy(channel));
+            }            
+        });
     }
 
     static get instance() {
@@ -26,24 +32,26 @@ class Logger {
         if (!this.channels[name]) this.channels[name] = new Channel();
         return this.channels[name];
     }
+}
 
-    /**
-     * Return an object with a function field for each channel.
-     * Will create any channel not already used.
-     * Calling the function will call the log function of the channel.
-     */
-    all(...channels) {
-        const all = {};
-        for (const name of channels) {
-            if (!this.channels[name]) this.channels[name] = new Channel();
-        }
+class ChannelProxy {
+    constructor(channel) {
+        this.channel = channel;
+    }
 
-        for (const name in this.channels) {
-            all[name] = string => this.channels[name].log(string);
-        }
+    get(target, prop, receiver) {
+        return this.channel[prop];
+    }
 
-        return all;
+    set(obj, prop, value) {
+        this.channel[prop] = value;
+        return true;
+    }
+
+    apply(target, that, args) {
+        return this.channel.log(...args);
     }
 }
 
-export { Logger as default, getPos }
+
+export default Logger;
