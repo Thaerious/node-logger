@@ -31,7 +31,6 @@ export class Channel {
 
     set handlers(handlers) {
         this._handlers = [];
-
         for (const hnd of handlers.flat()) {
             this.appendHnd(hnd);
         }        
@@ -73,7 +72,6 @@ export class Channel {
 
     log(value) {
         if (!this.enabled) return;
-        
         let current = value;
         for (const handler of this._handlers) {
             current = handler(current, value);

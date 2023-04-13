@@ -2,7 +2,7 @@
 export default function colorize(value, raw) {
     const split = [];
     const stack = ['\u001b[0m'];    
-    const regex = /<\/?[a-z]+>/gi;
+    const regex = /<\/?[a-z]*>/gi;
     
     let i = 0;
     for (const r of [...value.matchAll(regex)]) {

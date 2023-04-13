@@ -1,10 +1,5 @@
 import Channel from "./Channel.js";
 
-/**
- * Use logger.getChannel('name').log('message') instead of console.log('message')
- * Turn off a channel with logger.getChannel('name').enabled = false
- * Turn on a channel with logger.getChannel('name').enabled = true
- */
 class Logger {
     constructor() {
         this._channels = {}
