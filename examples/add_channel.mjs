@@ -5,6 +5,3 @@ const logger = new Logger();
 logger.log("hello world");
 logger.verbose("hello there world I am logger");
 
-// console.log(logger.channels);
-
-

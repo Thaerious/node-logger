@@ -1,4 +1,5 @@
-import Logger from "@thaerious/logger";
+import Logger from "../src/Logger.js";
+
 
 Logger.instance.channel("verbose");
 const logger = Logger.instance.all();

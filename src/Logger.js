@@ -7,14 +7,17 @@ import Channel from "./Channel.js";
  */
 class Logger {
     constructor() {
-        this.channels = {
-            "log": new Channel()
-        }
+        this._channels = {}
 
         return new Proxy(this, {
             get(target, prop, receiver) {
-                const channel = target.channel(prop);
-                return new Proxy(() => { }, new ChannelProxy(channel));
+                if (prop.startsWith("$")) {
+                    return Reflect.get(...arguments);
+                }
+                else {
+                    const channel = target.channel(prop);
+                    return new Proxy(() => { }, new ChannelProxy(channel));
+                }
             }            
         });
     }
@@ -29,8 +32,8 @@ class Logger {
      **/
     channel(name) {
         name = name ?? "log";
-        if (!this.channels[name]) this.channels[name] = new Channel();
-        return this.channels[name];
+        if (!this._channels[name]) this._channels[name] = new Channel();
+        return this._channels[name];
     }
 }
 
